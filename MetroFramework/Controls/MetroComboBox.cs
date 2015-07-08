@@ -376,27 +376,27 @@ namespace MetroFramework.Controls
                     backColor = MetroPaint.BackColor.Form(Theme);
                 }
 
-                if (e.State == (DrawItemState.NoAccelerator | DrawItemState.NoFocusRect) || e.State == DrawItemState.None)
+                if ((e.State & DrawItemState.Selected) == DrawItemState.Selected)
                 {
-                    using (SolidBrush b = new SolidBrush(backColor))
-                    {
-                        e.Graphics.FillRectangle(b, new Rectangle(e.Bounds.Left, e.Bounds.Top, e.Bounds.Width, e.Bounds.Height));
-                    }
-
-                    foreColor = MetroPaint.ForeColor.Link.Normal(Theme);
-                }
-                else
+                using (SolidBrush b = new SolidBrush(MetroPaint.GetStyleColor(Style)))
                 {
-                    using (SolidBrush b = new SolidBrush(MetroPaint.GetStyleColor(Style)))
-                    {
-                        e.Graphics.FillRectangle(b, new Rectangle(e.Bounds.Left, e.Bounds.Top, e.Bounds.Width, e.Bounds.Height));
-                    }
-
-                    foreColor = MetroPaint.ForeColor.Tile.Normal(Theme);
+                    e.Graphics.FillRectangle(b, new Rectangle(e.Bounds.Left, e.Bounds.Top, e.Bounds.Width, e.Bounds.Height));
                 }
 
-                Rectangle textRect = new Rectangle(0, e.Bounds.Top, e.Bounds.Width, e.Bounds.Height);
-                TextRenderer.DrawText(e.Graphics, GetItemText(Items[e.Index]), MetroFonts.ComboBox(metroComboBoxSize, metroComboBoxWeight), textRect, foreColor, TextFormatFlags.Left | TextFormatFlags.VerticalCenter);
+                foreColor = MetroPaint.ForeColor.Tile.Normal(Theme);
+            }
+            else
+            {
+                using (SolidBrush b = new SolidBrush(backColor))
+                {
+                    e.Graphics.FillRectangle(b, new Rectangle(e.Bounds.Left, e.Bounds.Top, e.Bounds.Width, e.Bounds.Height));
+                }
+
+                foreColor = MetroPaint.ForeColor.Link.Normal(Theme);
+            }
+
+            Rectangle textRect = new Rectangle(0, e.Bounds.Top, e.Bounds.Width, e.Bounds.Height);
+            TextRenderer.DrawText(e.Graphics, GetItemText(Items[e.Index]), MetroFonts.ComboBox(metroComboBoxSize, metroComboBoxWeight), textRect, foreColor, TextFormatFlags.Left | TextFormatFlags.VerticalCenter);
             }
             else
             {
